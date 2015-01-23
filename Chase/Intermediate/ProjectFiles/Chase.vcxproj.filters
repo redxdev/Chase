@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<None Include="..\..\Chase.uproject" />
+		<Filter Include="Source">
+			<UniqueIdentifier>{53E95FD5-A38F-47AF-B884-313E7807A2B5}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Source\Chase.Target.cs">
+			<Filter>Source</Filter>
+		</None >
+		<None Include="..\..\Source\ChaseEditor.Target.cs">
+			<Filter>Source</Filter>
+		</None >
+		<Filter Include="Config">
+			<UniqueIdentifier>{2F32DAD3-A7C0-4965-AEC1-577D269E5678}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Config\DefaultEditor.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultEngine.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultGame.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultInput.ini">
+			<Filter>Config</Filter>
+		</None >
+		<Filter Include="Source\Chase">
+			<UniqueIdentifier>{97FF8423-B93A-40BF-8A38-67805EE1283E}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Source\Chase\Chase.Build.cs">
+			<Filter>Source\Chase</Filter>
+		</None >
+		<Filter Include="Source\Chase\Private">
+			<UniqueIdentifier>{50A0A40B-CA22-4F94-8DDD-0F5C0580993F}</UniqueIdentifier>
+		</Filter>
+		<ClCompile Include="..\..\Source\Chase\Private\Chase.cpp">
+			<Filter>Source\Chase\Private</Filter>
+		</ClCompile >
+		<ClCompile Include="..\..\Source\Chase\Private\ChaseCharacter.cpp">
+			<Filter>Source\Chase\Private</Filter>
+		</ClCompile >
+		<ClCompile Include="..\..\Source\Chase\Private\ChaseGameMode.cpp">
+			<Filter>Source\Chase\Private</Filter>
+		</ClCompile >
+		<Filter Include="Source\Chase\Public">
+			<UniqueIdentifier>{F87BF45B-864E-436F-A5EB-27228C3A70A3}</UniqueIdentifier>
+		</Filter>
+		<ClInclude Include="..\..\Source\Chase\Public\Chase.h">
+			<Filter>Source\Chase\Public</Filter>
+		</ClInclude >
+		<ClInclude Include="..\..\Source\Chase\Public\ChaseCharacter.h">
+			<Filter>Source\Chase\Public</Filter>
+		</ClInclude >
+		<ClInclude Include="..\..\Source\Chase\Public\ChaseGameMode.h">
+			<Filter>Source\Chase\Public</Filter>
+		</ClInclude >
+		<Filter Include="Source\Chase\Resources">
+			<UniqueIdentifier>{802330B4-0243-427F-BDAD-02AFA42E54C8}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="Source\Chase\Resources\Windows">
+			<UniqueIdentifier>{2EC4EE65-C5F3-47FC-A0ED-2D678BFD1E14}</UniqueIdentifier>
+		</Filter>
+		<ResourceCompile Include="..\..\Source\Chase\Resources\Windows\Chase.rc">
+			<Filter>Source\Chase\Resources\Windows</Filter>
+		</ResourceCompile >
+	</ItemGroup>
+</Project>

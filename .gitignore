@@ -1,0 +1,11 @@
+/Chase/Binaries
+/Chase/DerivedDataCache
+/Chase/Intermediate
+/Chase/Saved
+/AssetSrc/Maya/cache
+/AssetSrc/Maya/autosave
+/AssetSrc/Maya/renderData
+/AssetExport
+*.sdf
+*.suo
+*.opensdf
