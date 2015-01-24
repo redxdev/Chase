@@ -45,6 +45,9 @@ AChaseCharacter::AChaseCharacter(const FObjectInitializer& ObjectInitializer)
 	InputEnabled = true;
 
 	PrimaryActorTick.bCanEverTick = true;
+
+	WalkSpeed = 400;
+	RunSpeed = 800;
 }
 
 //////////////////////////////////////////////////////////////////////////
