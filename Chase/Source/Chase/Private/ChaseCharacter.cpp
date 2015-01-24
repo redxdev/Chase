@@ -2,6 +2,7 @@
 
 #include "Chase.h"
 #include "ChaseCharacter.h"
+#include "Engine.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AChaseCharacter
@@ -40,6 +41,14 @@ AChaseCharacter::AChaseCharacter(const FObjectInitializer& ObjectInitializer)
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+<<<<<<< HEAD
+=======
+
+	IsBeingChased = false;
+	InputEnabled = true;
+
+	PrimaryActorTick.bCanEverTick = true;
+>>>>>>> 33b588086561fffb61c8b9b8f1aec4b876524b80
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -49,7 +58,7 @@ void AChaseCharacter::SetupPlayerInputComponent(class UInputComponent* InputComp
 {
 	// Set up gameplay key bindings
 	check(InputComponent);
-	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+	InputComponent->BindAction("Jump", IE_Pressed, this, &AChaseCharacter::Jump);
 	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
 	InputComponent->BindAxis("MoveForward", this, &AChaseCharacter::MoveForward);
@@ -63,44 +72,30 @@ void AChaseCharacter::SetupPlayerInputComponent(class UInputComponent* InputComp
 	InputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	InputComponent->BindAxis("LookUpRate", this, &AChaseCharacter::LookUpAtRate);
 
-	// handle touch devices
-	InputComponent->BindTouch(IE_Pressed, this, &AChaseCharacter::TouchStarted);
-	InputComponent->BindTouch(IE_Released, this, &AChaseCharacter::TouchStopped);
-}
-
-
-void AChaseCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
-{
-	// jump, but only on the first touch
-	if (FingerIndex == ETouchIndex::Touch1)
-	{
-		Jump();
-	}
-}
-
-void AChaseCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
-{
-	if (FingerIndex == ETouchIndex::Touch1)
-	{
-		StopJumping();
-	}
+	InputComponent->BindAction("Tackle", IE_Pressed, this, &AChaseCharacter::Tackle);
 }
 
 void AChaseCharacter::TurnAtRate(float Rate)
 {
-	// calculate delta for this frame from the rate information
-	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
+	if (InputEnabled)
+	{
+		// calculate delta for this frame from the rate information
+		AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
+	}
 }
 
 void AChaseCharacter::LookUpAtRate(float Rate)
 {
-	// calculate delta for this frame from the rate information
-	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+	if (InputEnabled)
+	{
+		// calculate delta for this frame from the rate information
+		AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+	}
 }
 
 void AChaseCharacter::MoveForward(float Value)
 {
-	if ((Controller != NULL) && (Value != 0.0f))
+	if (InputEnabled && (Controller != NULL) && (Value != 0.0f))
 	{
 		// find out which way is forward
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -114,15 +109,70 @@ void AChaseCharacter::MoveForward(float Value)
 
 void AChaseCharacter::MoveRight(float Value)
 {
-	if ( (Controller != NULL) && (Value != 0.0f) )
+	if (InputEnabled && (Controller != NULL) && (Value != 0.0f))
 	{
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
-	
+
 		// get right vector 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
+}
+
+void AChaseCharacter::Jump()
+{
+	if (InputEnabled)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor(100, 149, 237), TEXT("LOL JUMPED"));
+		Super::Jump();
+	}
+}
+
+void AChaseCharacter::AddControllerYawInput(float Val)
+{
+	//if (InputEnabled)
+	{
+		Super::AddControllerYawInput(Val);
+	}
+}
+
+void AChaseCharacter::AddControllerPitchInput(float Val)
+{
+	//if (InputEnabled)
+	{
+		Super::AddControllerPitchInput(Val);
+	}
+}
+
+void AChaseCharacter::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	if (TackleTimer > 0.0f)
+	{
+		if ((Controller != NULL) && (TackleTimer != 0.0f))
+		{
+			// find out which way is forward
+			const FRotator Rotation = Controller->GetControlRotation();
+			const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+			// get forward vector
+			const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+			AddMovementInput(Direction, TackleTimer);
+		}
+		TackleTimer -= DeltaSeconds;
+	}
+	else
+	{
+		InputEnabled = true;
+	}
+}
+
+void AChaseCharacter::Tackle()
+{
+	TackleTimer = 5.0f;
+	InputEnabled = false;
 }
