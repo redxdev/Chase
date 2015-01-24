@@ -3,6 +3,8 @@
 #include "Chase.h"
 #include "ChaseCharacter.h"
 #include "Engine.h"
+#include "ChaseGameState.h"
+#include "UnrealNetwork.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AChaseCharacter
@@ -47,7 +49,16 @@ AChaseCharacter::AChaseCharacter(const FObjectInitializer& ObjectInitializer)
 	PrimaryActorTick.bCanEverTick = true;
 
 	WalkSpeed = 400;
-	RunSpeed = 800;
+	RunSpeed = 1000;
+
+	Team = EChaseTeam::Chaser;
+}
+
+void AChaseCharacter::GetLifetimeReplicatedProps(TArray< class FLifetimeProperty > & OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AChaseCharacter, Team);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -76,7 +87,7 @@ void AChaseCharacter::SetupPlayerInputComponent(class UInputComponent* InputComp
 
 void AChaseCharacter::TurnAtRate(float Rate)
 {
-	if (InputEnabled)
+	if (IsMovementEnabled())
 	{
 		// calculate delta for this frame from the rate information
 		AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
@@ -85,7 +96,7 @@ void AChaseCharacter::TurnAtRate(float Rate)
 
 void AChaseCharacter::LookUpAtRate(float Rate)
 {
-	if (InputEnabled)
+	if (IsMovementEnabled())
 	{
 		// calculate delta for this frame from the rate information
 		AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
@@ -94,7 +105,7 @@ void AChaseCharacter::LookUpAtRate(float Rate)
 
 void AChaseCharacter::MoveForward(float Value)
 {
-	if (InputEnabled && (Controller != NULL) && (Value != 0.0f))
+	if (IsMovementEnabled() && (Controller != NULL) && (Value != 0.0f))
 	{
 		// find out which way is forward
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -108,7 +119,7 @@ void AChaseCharacter::MoveForward(float Value)
 
 void AChaseCharacter::MoveRight(float Value)
 {
-	if (InputEnabled && (Controller != NULL) && (Value != 0.0f))
+	if (IsMovementEnabled() && (Controller != NULL) && (Value != 0.0f))
 	{
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -123,7 +134,7 @@ void AChaseCharacter::MoveRight(float Value)
 
 void AChaseCharacter::Jump()
 {
-	if (InputEnabled)
+	if (IsMovementEnabled())
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor(100, 149, 237), TEXT("LOL JUMPED"));
 		Super::Jump();
@@ -132,7 +143,7 @@ void AChaseCharacter::Jump()
 
 void AChaseCharacter::AddControllerYawInput(float Val)
 {
-	//if (InputEnabled)
+	if (IsMovementEnabled(true))
 	{
 		Super::AddControllerYawInput(Val);
 	}
@@ -140,7 +151,7 @@ void AChaseCharacter::AddControllerYawInput(float Val)
 
 void AChaseCharacter::AddControllerPitchInput(float Val)
 {
-	//if (InputEnabled)
+	if (IsMovementEnabled(true))
 	{
 		Super::AddControllerPitchInput(Val);
 	}
@@ -150,9 +161,9 @@ void AChaseCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	if (TackleTimer > 0.0f)
+	if (ChargeCooldownTimer > 0.0f)
 	{
-		if ((Controller != NULL) && (TackleTimer != 0.0f))
+		if ((Controller != NULL))
 		{
 			// find out which way is forward
 			const FRotator Rotation = Controller->GetControlRotation();
@@ -160,18 +171,46 @@ void AChaseCharacter::Tick(float DeltaSeconds)
 
 			// get forward vector
 			const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-			AddMovementInput(Direction, TackleTimer);
+			AddMovementInput(Direction, ChargeTimer);
 		}
-		TackleTimer -= DeltaSeconds;
+		ChargeTimer -= DeltaSeconds;
+		ChargeCooldownTimer -= DeltaSeconds;
 	}
 	else
 	{
 		InputEnabled = true;
+		GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 	}
 }
 
 void AChaseCharacter::Tackle()
 {
-	TackleTimer = 5.0f;
-	InputEnabled = false;
+	if (IsMovementEnabled(true))
+	{
+		ChargeTimer = 5.0f;
+		ChargeCooldownTimer = 8.f;
+		InputEnabled = false;
+		GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+	}
+}
+
+bool AChaseCharacter::IsMovementEnabled(bool CheckOnlyState)
+{
+	if (!CheckOnlyState && !InputEnabled)
+		return false;
+
+	AChaseGameState* GameState = Cast<AChaseGameState>(UGameplayStatics::GetGameState(this));
+	if (GameState && GameState->IsValidLowLevel())
+	{
+		if (Team == EChaseTeam::Victim)
+		{
+			return GameState->CurrentGameState == EChaseGameState::Setup || GameState->CurrentGameState == EChaseGameState::Playing;
+		}
+		else
+		{
+			return GameState->CurrentGameState == EChaseGameState::Playing;
+		}
+	}
+
+	return true;
 }

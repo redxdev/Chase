@@ -3,6 +3,7 @@
 #include "Chase.h"
 #include "ChaseGameMode.h"
 #include "ChaseCharacter.h"
+#include "ChaseGameState.h"
 
 AChaseGameMode::AChaseGameMode(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -13,4 +14,6 @@ AChaseGameMode::AChaseGameMode(const FObjectInitializer& ObjectInitializer)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+
+	GameStateClass = AChaseGameState::StaticClass();
 }

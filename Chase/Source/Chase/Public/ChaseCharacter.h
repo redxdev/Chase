@@ -3,6 +3,13 @@
 #include "GameFramework/Character.h"
 #include "ChaseCharacter.generated.h"
 
+UENUM(BlueprintType)
+enum class EChaseTeam : uint8
+{
+	Chaser,
+	Victim
+};
+
 UCLASS(config=Game)
 class AChaseCharacter : public ACharacter
 {
@@ -33,6 +40,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Movement)
 	float RunSpeed;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Game, Replicated)
+	EChaseTeam Team;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void GameStateChanged();
+
 protected:
 
 	/** Called for forwards/backward input */
@@ -61,6 +74,14 @@ protected:
 
 	virtual void Tackle();
 
+	bool IsMovementEnabled(bool CheckOnlyState = false);
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Game)
+	float ChargeTimer;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Game)
+	float ChargeCooldownTimer;
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
@@ -75,6 +96,5 @@ public:
 
 private:
 	bool InputEnabled;
-	float TackleTimer;
 };
 
