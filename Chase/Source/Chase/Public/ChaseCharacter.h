@@ -27,9 +27,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Game)
-	bool IsBeingChased;
-
 protected:
 
 	/** Called for forwards/backward input */
