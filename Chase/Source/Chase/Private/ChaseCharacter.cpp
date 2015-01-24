@@ -154,7 +154,7 @@ void AChaseCharacter::AddControllerYawInput(float Val)
 {
 	if (IsMovementEnabled(true))
 	{
-		Super::AddControllerYawInput(Val);
+		Super::AddControllerYawInput(Val / (ChargeTimer > 0.f ? 8.f : 1.f));
 	}
 }
 
