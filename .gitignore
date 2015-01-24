@@ -2,7 +2,6 @@
 /Chase/DerivedDataCache
 /Chase/Intermediate
 /Chase/Saved
-/Chase/Build
 /AssetSrc/Maya/cache
 /AssetSrc/Maya/autosave
 /AssetSrc/Maya/renderData
@@ -10,3 +9,4 @@
 *.sdf
 *.suo
 *.opensdf
+*.sln
