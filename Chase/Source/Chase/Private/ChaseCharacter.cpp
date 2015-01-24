@@ -197,6 +197,16 @@ void AChaseCharacter::Tick(float DeltaSeconds)
 	}
 }
 
+void AChaseCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (Role < ROLE_Authority)
+		return;
+
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+}
+
 void AChaseCharacter::Tackle()
 {
 	Charge();
