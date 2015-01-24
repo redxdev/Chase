@@ -55,6 +55,9 @@ AChaseCharacter::AChaseCharacter(const FObjectInitializer& ObjectInitializer)
 
 	SetActorEnableCollision(true);
 	OnActorHit.AddDynamic(this, &AChaseCharacter::HitOtherActor);
+
+	VictimMaterial = NULL;
+	ChaserMaterial = NULL;
 }
 
 void AChaseCharacter::GetLifetimeReplicatedProps(TArray< class FLifetimeProperty > & OutLifetimeProps) const

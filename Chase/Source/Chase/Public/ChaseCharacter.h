@@ -46,6 +46,12 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void GameStateChanged();
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Game)
+	UMaterialInterface* VictimMaterial;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Game)
+	UMaterialInterface* ChaserMaterial;
+
 protected:
 
 	/** Called for forwards/backward input */

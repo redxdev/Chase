@@ -70,6 +70,11 @@ void AChaseGameState::GameStateChanged()
 		return;
 
 	Character->GameStateChanged();
+
+	for (TActorIterator<AChaseCharacter> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+	{
+		ActorItr->GetMesh()->SetMaterial(0, ActorItr->Team == EChaseTeam::Chaser ? ActorItr->ChaserMaterial : ActorItr->VictimMaterial);
+	}
 }
 
 void AChaseGameState::Tick(float DeltaSeconds)
