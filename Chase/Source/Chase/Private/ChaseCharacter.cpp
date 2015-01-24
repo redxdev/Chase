@@ -219,7 +219,7 @@ bool AChaseCharacter::Charge_Validate()
 
 void AChaseCharacter::Charge_Implementation()
 {
-	if (IsMovementEnabled(true))
+	if (IsMovementEnabled(true) && Team == EChaseTeam::Chaser)
 	{
 		ChargeTimer = Team == EChaseTeam::Victim ? 5.f : 5.0f;
 		ChargeCooldownTimer = 7.f;
