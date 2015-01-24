@@ -44,6 +44,8 @@ AChaseCharacter::AChaseCharacter(const FObjectInitializer& ObjectInitializer)
 
 	IsBeingChased = false;
 	InputEnabled = true;
+
+	PrimaryActorTick.bCanEverTick = true;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -66,6 +68,8 @@ void AChaseCharacter::SetupPlayerInputComponent(class UInputComponent* InputComp
 	InputComponent->BindAxis("TurnRate", this, &AChaseCharacter::TurnAtRate);
 	InputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	InputComponent->BindAxis("LookUpRate", this, &AChaseCharacter::LookUpAtRate);
+
+	InputComponent->BindAction("Tackle", IE_Pressed, this, &AChaseCharacter::Tackle);
 }
 
 void AChaseCharacter::TurnAtRate(float Rate)
@@ -126,7 +130,7 @@ void AChaseCharacter::Jump()
 
 void AChaseCharacter::AddControllerYawInput(float Val)
 {
-	if (InputEnabled)
+	//if (InputEnabled)
 	{
 		Super::AddControllerYawInput(Val);
 	}
@@ -134,8 +138,38 @@ void AChaseCharacter::AddControllerYawInput(float Val)
 
 void AChaseCharacter::AddControllerPitchInput(float Val)
 {
-	if (InputEnabled)
+	//if (InputEnabled)
 	{
 		Super::AddControllerPitchInput(Val);
 	}
+}
+
+void AChaseCharacter::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	if (TackleTimer > 0.0f)
+	{
+		if ((Controller != NULL) && (TackleTimer != 0.0f))
+		{
+			// find out which way is forward
+			const FRotator Rotation = Controller->GetControlRotation();
+			const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+			// get forward vector
+			const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+			AddMovementInput(Direction, TackleTimer);
+		}
+		TackleTimer -= DeltaSeconds;
+	}
+	else
+	{
+		InputEnabled = true;
+	}
+}
+
+void AChaseCharacter::Tackle()
+{
+	TackleTimer = 5.0f;
+	InputEnabled = false;
 }

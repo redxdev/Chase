@@ -56,11 +56,14 @@ protected:
 
 	virtual void AddControllerPitchInput(float Val) override;
 
+	virtual void Tackle();
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	// End of APawn interface
 
+	virtual void Tick(float DeltaSeconds) override;
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
@@ -69,5 +72,6 @@ public:
 
 private:
 	bool InputEnabled;
+	float TackleTimer;
 };
 
