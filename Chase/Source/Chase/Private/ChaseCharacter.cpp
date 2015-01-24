@@ -51,6 +51,7 @@ AChaseCharacter::AChaseCharacter(const FObjectInitializer& ObjectInitializer)
 	WalkSpeed = 600;
 	ChaserWalkSpeed = 500;
 	RunSpeed = 1000;
+	PowerupSpeed = 0;
 
 	Team = EChaseTeam::Chaser;
 
@@ -173,6 +174,8 @@ void AChaseCharacter::Tick(float DeltaSeconds)
 
 	if (ChargeCooldownTimer > 0.0f)
 	{
+		GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+
 		if ((Controller != NULL))
 		{
 			// find out which way is forward
@@ -196,6 +199,8 @@ void AChaseCharacter::Tick(float DeltaSeconds)
 		InputEnabled = true;
 		GetCharacterMovement()->MaxWalkSpeed = Team == EChaseTeam::Chaser ? ChaserWalkSpeed : WalkSpeed;
 	}
+
+	GetCharacterMovement()->MaxWalkSpeed += PowerupSpeed;
 }
 
 void AChaseCharacter::BeginPlay()
