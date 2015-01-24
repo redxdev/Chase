@@ -4,7 +4,7 @@
 	<ItemGroup>
 		<None Include="..\..\Chase.uproject" />
 		<Filter Include="Source">
-			<UniqueIdentifier>{53E95FD5-A38F-47AF-B884-313E7807A2B5}</UniqueIdentifier>
+			<UniqueIdentifier>{2C20D34D-A220-4A2C-96AA-C75042CBB1B3}</UniqueIdentifier>
 		</Filter>
 		<None Include="..\..\Source\Chase.Target.cs">
 			<Filter>Source</Filter>
@@ -13,7 +13,7 @@
 			<Filter>Source</Filter>
 		</None >
 		<Filter Include="Config">
-			<UniqueIdentifier>{2F32DAD3-A7C0-4965-AEC1-577D269E5678}</UniqueIdentifier>
+			<UniqueIdentifier>{5FA6DC20-D8FF-45C7-B5B3-FD06935638C6}</UniqueIdentifier>
 		</Filter>
 		<None Include="..\..\Config\DefaultEditor.ini">
 			<Filter>Config</Filter>
@@ -28,13 +28,13 @@
 			<Filter>Config</Filter>
 		</None >
 		<Filter Include="Source\Chase">
-			<UniqueIdentifier>{97FF8423-B93A-40BF-8A38-67805EE1283E}</UniqueIdentifier>
+			<UniqueIdentifier>{0996AEB7-8B1B-427E-BBDB-03A605C16ED3}</UniqueIdentifier>
 		</Filter>
 		<None Include="..\..\Source\Chase\Chase.Build.cs">
 			<Filter>Source\Chase</Filter>
 		</None >
 		<Filter Include="Source\Chase\Private">
-			<UniqueIdentifier>{50A0A40B-CA22-4F94-8DDD-0F5C0580993F}</UniqueIdentifier>
+			<UniqueIdentifier>{EC7308E1-3F0B-412C-A0E4-5DD4BB419980}</UniqueIdentifier>
 		</Filter>
 		<ClCompile Include="..\..\Source\Chase\Private\Chase.cpp">
 			<Filter>Source\Chase\Private</Filter>
@@ -46,7 +46,7 @@
 			<Filter>Source\Chase\Private</Filter>
 		</ClCompile >
 		<Filter Include="Source\Chase\Public">
-			<UniqueIdentifier>{F87BF45B-864E-436F-A5EB-27228C3A70A3}</UniqueIdentifier>
+			<UniqueIdentifier>{9FD0D32E-0650-4C5A-925B-439EE49B3894}</UniqueIdentifier>
 		</Filter>
 		<ClInclude Include="..\..\Source\Chase\Public\Chase.h">
 			<Filter>Source\Chase\Public</Filter>
@@ -58,10 +58,10 @@
 			<Filter>Source\Chase\Public</Filter>
 		</ClInclude >
 		<Filter Include="Source\Chase\Resources">
-			<UniqueIdentifier>{802330B4-0243-427F-BDAD-02AFA42E54C8}</UniqueIdentifier>
+			<UniqueIdentifier>{B2BFC706-13EC-4889-85A3-BCFA0EEDD427}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="Source\Chase\Resources\Windows">
-			<UniqueIdentifier>{2EC4EE65-C5F3-47FC-A0ED-2D678BFD1E14}</UniqueIdentifier>
+			<UniqueIdentifier>{85FF5CB2-745A-4704-84A8-ACB76C16DF89}</UniqueIdentifier>
 		</Filter>
 		<ResourceCompile Include="..\..\Source\Chase\Resources\Windows\Chase.rc">
 			<Filter>Source\Chase\Resources\Windows</Filter>

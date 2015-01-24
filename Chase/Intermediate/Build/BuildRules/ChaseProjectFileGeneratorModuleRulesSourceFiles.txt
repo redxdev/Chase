@@ -334,7 +334,7 @@ C:\Program Files\Unreal Engine\4.6\Engine\Plugins\ScriptGeneratorPlugin\Source\S
 C:\Program Files\Unreal Engine\4.6\Engine\Plugins\ScriptPlugin\Source\ScriptEditorPlugin\ScriptEditorPlugin.Build.cs
 C:\Program Files\Unreal Engine\4.6\Engine\Plugins\ScriptPlugin\Source\ScriptPlugin\ScriptPlugin.Build.cs
 C:\Program Files\Unreal Engine\4.6\Engine\Plugins\Slate\SlateRemote\Source\SlateRemote\SlateRemote.Build.cs
-D:\GGJ\Chase\Chase\Source\Chase\Chase.Build.cs
+D:\repos\chase\Chase\Source\Chase\Chase.Build.cs
 C:\Program Files\Unreal Engine\4.6\Engine\Source\UE4Game.Target.cs
-D:\GGJ\Chase\Chase\Source\Chase.Target.cs
-D:\GGJ\Chase\Chase\Source\ChaseEditor.Target.cs
+D:\repos\chase\Chase\Source\Chase.Target.cs
+D:\repos\chase\Chase\Source\ChaseEditor.Target.cs
