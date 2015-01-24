@@ -40,6 +40,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Movement)
 	float RunSpeed;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Movement)
+	float ChaserWalkSpeed;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Game, Replicated)
 	EChaseTeam Team;
 

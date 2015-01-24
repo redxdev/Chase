@@ -49,6 +49,7 @@ AChaseCharacter::AChaseCharacter(const FObjectInitializer& ObjectInitializer)
 	PrimaryActorTick.bCanEverTick = true;
 
 	WalkSpeed = 600;
+	ChaserWalkSpeed = 500;
 	RunSpeed = 1000;
 
 	Team = EChaseTeam::Chaser;
@@ -193,7 +194,7 @@ void AChaseCharacter::Tick(float DeltaSeconds)
 	else
 	{
 		InputEnabled = true;
-		GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+		GetCharacterMovement()->MaxWalkSpeed = Team == EChaseTeam::Chaser ? ChaserWalkSpeed : WalkSpeed;
 	}
 }
 
