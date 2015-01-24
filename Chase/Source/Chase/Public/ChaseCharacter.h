@@ -76,10 +76,10 @@ protected:
 
 	bool IsMovementEnabled(bool CheckOnlyState = false);
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Game)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Game, Replicated)
 	float ChargeTimer;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Game)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Game, Replicated)
 	float ChargeCooldownTimer;
 
 protected:
@@ -88,6 +88,12 @@ protected:
 	// End of APawn interface
 
 	virtual void Tick(float DeltaSeconds) override;
+
+	UFUNCTION(reliable, server, WithValidation)
+	void Charge();
+
+	UFUNCTION()
+	void HitOtherActor(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
@@ -95,6 +101,7 @@ public:
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 private:
+	UPROPERTY(Replicated)
 	bool InputEnabled;
 };
 

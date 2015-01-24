@@ -34,8 +34,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category=Game)
 	void StartGame();
 
+	void FinishGame(AChaseCharacter* Winner);
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Game, Replicated)
 	float TimeUntilNextState;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Game, Replicated)
+	EChaseTeam Winner;
 
 protected:
 	UFUNCTION()

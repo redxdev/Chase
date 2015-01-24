@@ -20,6 +20,7 @@ void AChaseGameState::GetLifetimeReplicatedProps(TArray< class FLifetimeProperty
 
 	DOREPLIFETIME(AChaseGameState, CurrentGameState);
 	DOREPLIFETIME(AChaseGameState, TimeUntilNextState);
+	DOREPLIFETIME(AChaseGameState, Winner);
 }
 
 void AChaseGameState::StartGame()
@@ -47,6 +48,18 @@ void AChaseGameState::StartGame()
 
 	TimeUntilNextState = 10.f;
 
+	GameStateChanged();
+}
+
+void AChaseGameState::FinishGame(AChaseCharacter* Winner)
+{
+	if (Role < ROLE_Authority || CurrentGameState != EChaseGameState::Playing)
+		return;
+
+
+	this->Winner = EChaseTeam::Chaser;
+	CurrentGameState = EChaseGameState::Finished;
+	TimeUntilNextState = 0.f;
 	GameStateChanged();
 }
 
@@ -82,6 +95,7 @@ void AChaseGameState::Tick(float DeltaSeconds)
 
 		case EChaseGameState::Playing:
 			CurrentGameState = EChaseGameState::Finished;
+			Winner = EChaseTeam::Victim;
 			GameStateChanged();
 			break;
 		}

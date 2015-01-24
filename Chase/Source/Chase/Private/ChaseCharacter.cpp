@@ -52,6 +52,9 @@ AChaseCharacter::AChaseCharacter(const FObjectInitializer& ObjectInitializer)
 	RunSpeed = 1000;
 
 	Team = EChaseTeam::Chaser;
+
+	SetActorEnableCollision(true);
+	OnActorHit.AddDynamic(this, &AChaseCharacter::HitOtherActor);
 }
 
 void AChaseCharacter::GetLifetimeReplicatedProps(TArray< class FLifetimeProperty > & OutLifetimeProps) const
@@ -59,6 +62,9 @@ void AChaseCharacter::GetLifetimeReplicatedProps(TArray< class FLifetimeProperty
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AChaseCharacter, Team);
+	DOREPLIFETIME(AChaseCharacter, InputEnabled);
+	DOREPLIFETIME(AChaseCharacter, ChargeTimer);
+	DOREPLIFETIME(AChaseCharacter, ChargeCooldownTimer);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -173,7 +179,12 @@ void AChaseCharacter::Tick(float DeltaSeconds)
 			const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 			AddMovementInput(Direction, ChargeTimer);
 		}
-		ChargeTimer -= DeltaSeconds;
+
+		if (ChargeTimer > 0.f)
+			ChargeTimer -= DeltaSeconds;
+		else
+			ChargeTimer = 0.f;
+
 		ChargeCooldownTimer -= DeltaSeconds;
 	}
 	else
@@ -184,6 +195,16 @@ void AChaseCharacter::Tick(float DeltaSeconds)
 }
 
 void AChaseCharacter::Tackle()
+{
+	Charge();
+}
+
+bool AChaseCharacter::Charge_Validate()
+{
+	return true;
+}
+
+void AChaseCharacter::Charge_Implementation()
 {
 	if (IsMovementEnabled(true))
 	{
@@ -213,4 +234,29 @@ bool AChaseCharacter::IsMovementEnabled(bool CheckOnlyState)
 	}
 
 	return true;
+}
+
+void AChaseCharacter::HitOtherActor(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
+{
+	if (Role < ROLE_Authority)
+		return;
+
+	if (Team == EChaseTeam::Victim)
+		return;
+
+	AChaseGameState* State = Cast<AChaseGameState>(UGameplayStatics::GetGameState(GetWorld()));
+	if (!State || !State->IsValidLowLevel())
+		return;
+
+	if (State->CurrentGameState != EChaseGameState::Playing)
+		return;
+
+	AChaseCharacter* OtherCharacter = Cast<AChaseCharacter>(OtherActor);
+	if (!OtherCharacter || !OtherCharacter->IsValidLowLevel())
+		return;
+
+	if (OtherCharacter->Team == EChaseTeam::Victim)
+	{
+		State->FinishGame(this);
+	}
 }
