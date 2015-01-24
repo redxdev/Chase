@@ -17,6 +17,8 @@ enum class EChaseGameState : uint8
 
 class AChaseCharacter;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameStateChangedSignature);
+
 /**
  * 
  */
@@ -41,6 +43,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category=Game, Replicated)
 	EChaseTeam Winner;
+
+	UPROPERTY(BlueprintAssignable, Category=Game)
+	FGameStateChangedSignature OnGameStateChanged;
 
 protected:
 	UFUNCTION()

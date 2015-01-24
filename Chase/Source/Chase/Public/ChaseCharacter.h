@@ -34,17 +34,20 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement, Replicated)
 	float WalkSpeed;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Movement)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement, Replicated)
 	float RunSpeed;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Movement)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement, Replicated)
 	float ChaserWalkSpeed;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Movement)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement, Replicated)
 	float PowerupSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Game, Replicated)
+	bool Invulnerable;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Game, Replicated)
 	EChaseTeam Team;

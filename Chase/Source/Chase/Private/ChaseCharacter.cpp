@@ -70,6 +70,11 @@ void AChaseCharacter::GetLifetimeReplicatedProps(TArray< class FLifetimeProperty
 	DOREPLIFETIME(AChaseCharacter, InputEnabled);
 	DOREPLIFETIME(AChaseCharacter, ChargeTimer);
 	DOREPLIFETIME(AChaseCharacter, ChargeCooldownTimer);
+	DOREPLIFETIME(AChaseCharacter, WalkSpeed);
+	DOREPLIFETIME(AChaseCharacter, RunSpeed);
+	DOREPLIFETIME(AChaseCharacter, ChaserWalkSpeed);
+	DOREPLIFETIME(AChaseCharacter, PowerupSpeed);
+	DOREPLIFETIME(AChaseCharacter, Invulnerable);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -274,7 +279,7 @@ void AChaseCharacter::HitOtherActor(AActor* SelfActor, AActor* OtherActor, FVect
 	if (!OtherCharacter || !OtherCharacter->IsValidLowLevel())
 		return;
 
-	if (OtherCharacter->Team == EChaseTeam::Victim)
+	if (OtherCharacter->Team == EChaseTeam::Victim && !OtherCharacter->Invulnerable)
 	{
 		State->FinishGame(this);
 	}

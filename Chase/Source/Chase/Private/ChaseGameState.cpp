@@ -65,6 +65,7 @@ void AChaseGameState::FinishGame(AChaseCharacter* Winner)
 
 void AChaseGameState::GameStateChanged()
 {
+	OnGameStateChanged.Broadcast();
 	AChaseCharacter* Character = Cast<AChaseCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	if (!Character || !Character->IsValidLowLevel())
 		return;
