@@ -41,14 +41,10 @@ AChaseCharacter::AChaseCharacter(const FObjectInitializer& ObjectInitializer)
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
-<<<<<<< HEAD
-=======
 
-	IsBeingChased = false;
 	InputEnabled = true;
 
 	PrimaryActorTick.bCanEverTick = true;
->>>>>>> 33b588086561fffb61c8b9b8f1aec4b876524b80
 }
 
 //////////////////////////////////////////////////////////////////////////
